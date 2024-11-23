@@ -17,6 +17,7 @@ public class Vector1D {
                     MessageFormat.format("Index out of range: {0} must be between 0 and {1}", index,
                             this.data.length - 1));
         }
+
         return this.data[index];
     }
 
@@ -26,6 +27,7 @@ public class Vector1D {
                     MessageFormat.format("Index out of range: {0} must be between 0 and {1}", index,
                             this.data.length - 1));
         }
+
         this.data[index] = value;
     }
 
@@ -36,6 +38,7 @@ public class Vector1D {
         }
 
         float[] resultData = new float[this.data.length];
+
         for (int i = 0; i < this.data.length; i++) {
             resultData[i] = this.data[i] + other.data[i];
         }
@@ -50,6 +53,7 @@ public class Vector1D {
         }
 
         float[] resultData = new float[this.data.length];
+
         for (int i = 0; i < this.data.length; i++) {
             resultData[i] = this.data[i] - other.data[i];
         }
