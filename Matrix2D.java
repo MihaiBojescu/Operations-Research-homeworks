@@ -5,14 +5,18 @@ public class Matrix2D extends Vector1D {
     private int cols;
 
     public Matrix2D(int rows, int cols) {
-        super(new float[rows * cols]);
+        super(new double[rows * cols]);
 
         this.rows = rows;
         this.cols = cols;
     }
 
-    public Matrix2D(float[][] data) {
-        super(new float[data.length * data[0].length]);
+    public Matrix2D(double[] data) {
+        super(data);
+    }
+
+    public Matrix2D(double[][] data) {
+        super(new double[data.length * data[0].length]);
         this.rows = data.length;
         this.cols = data[0].length;
 
@@ -23,7 +27,69 @@ public class Matrix2D extends Vector1D {
         }
     }
 
-    public float get(int row, int col) throws Exception {
+    public Matrix2D extendRows(int dimensions) throws Exception {
+        if (dimensions < 0) {
+            throw new Exception("Number of additional rows must be non-negative");
+        }
+
+        int newRows = this.rows + dimensions;
+        double[] newData = new double[newRows * cols];
+
+        System.arraycopy(data, 0, newData, 0, data.length);
+
+        return new Matrix2D(newData);
+    }
+
+    public Matrix2D extendColumns(int dimensions) throws Exception {
+        if (dimensions < 0) {
+            throw new Exception("Number of additional columns must be non-negative");
+        }
+
+        int newCols = this.cols + dimensions;
+        double[] newData = new double[this.rows * newCols];
+
+        for (int r = 0; r < rows; r++) {
+            System.arraycopy(data, r * this.cols, newData, r * newCols, this.cols);
+        }
+
+        return new Matrix2D(newData);
+    }
+
+    public Matrix2D extend(double[] additionalData, boolean extendByRow) {
+        if (extendByRow) {
+            int additionalRows = additionalData.length / cols;
+
+            if (additionalData.length % cols != 0) {
+                throw new IllegalArgumentException("Additional data does not match column count for row extension");
+            }
+
+            int newRows = rows + additionalRows;
+            double[] newData = new double[newRows * cols];
+
+            System.arraycopy(data, 0, newData, 0, data.length);
+            System.arraycopy(additionalData, 0, newData, data.length, additionalData.length);
+
+            return new Matrix2D(newData);
+        } else {
+            int additionalCols = additionalData.length / rows;
+
+            if (additionalData.length % rows != 0) {
+                throw new IllegalArgumentException("Additional data does not match row count for column extension");
+            }
+
+            int newCols = cols + additionalCols;
+            double[] newData = new double[rows * newCols];
+
+            for (int r = 0; r < rows; r++) {
+                System.arraycopy(data, r * cols, newData, r * newCols, cols);
+                System.arraycopy(additionalData, r * additionalCols, newData, r * newCols + cols, additionalCols);
+            }
+
+            return new Matrix2D(newData);
+        }
+    }
+
+    public double get(int row, int col) throws Exception {
         if (row < 0 || row >= this.rows || col < 0 || col >= this.cols) {
             throw new Exception(
                     MessageFormat.format("Index out of range: ({0}, {1}) must be between (0, 0) and ({2}, {3})", row,
@@ -33,7 +99,7 @@ public class Matrix2D extends Vector1D {
         return this.data[row * cols + col];
     }
 
-    public void set(int row, int col, float value) throws Exception {
+    public void set(int row, int col, double value) throws Exception {
         if (row < 0 || row >= this.rows || col < 0 || col >= this.cols) {
             throw new Exception(
                     MessageFormat.format("Index out of range: ({0}, {1}) must be between (0, 0) and ({2}, {3})", row,
@@ -44,7 +110,7 @@ public class Matrix2D extends Vector1D {
     }
 
     public Matrix2D transpose() {
-        float[][] transposedData = new float[this.cols][this.rows];
+        double[][] transposedData = new double[this.cols][this.rows];
 
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.cols; j++) {
@@ -61,7 +127,7 @@ public class Matrix2D extends Vector1D {
                     this.cols, other.rows, other.cols));
         }
 
-        float[][] resultData = new float[this.rows][this.cols];
+        double[][] resultData = new double[this.rows][this.cols];
 
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.cols; j++) {
@@ -78,7 +144,7 @@ public class Matrix2D extends Vector1D {
                     this.cols, other.rows, other.cols));
         }
 
-        float[][] resultData = new float[this.rows][this.cols];
+        double[][] resultData = new double[this.rows][this.cols];
 
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.cols; j++) {
@@ -95,11 +161,11 @@ public class Matrix2D extends Vector1D {
                     this.cols, other.rows, other.cols));
         }
 
-        float[][] resultData = new float[this.rows][other.cols];
+        double[][] resultData = new double[this.rows][other.cols];
 
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < other.cols; j++) {
-                float value = 0;
+                double value = 0;
 
                 for (int k = 0; k < this.cols; k++) {
                     value += this.data[i * cols + k] * other.data[k * other.cols + j];
