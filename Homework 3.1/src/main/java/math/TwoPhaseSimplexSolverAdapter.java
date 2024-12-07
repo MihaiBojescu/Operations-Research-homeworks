@@ -3,7 +3,7 @@ package math;
 import interfaces.Solver;
 import util.Result;
 
-public class TwoPhaseSolver implements Solver {
+public class TwoPhaseSimplexSolverAdapter implements Solver {
     @Override
     public Result run(Problem problem) {
         TwoPhaseSimplexSolver solver = new TwoPhaseSimplexSolver(problem.getConstraints().toRawMatrix(),
