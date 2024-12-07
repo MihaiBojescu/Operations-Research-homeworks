@@ -17,6 +17,7 @@ public class BranchAndBound implements Solver {
         this.tolerance = tolerance;
     }
 
+    @Override
     public Result run(Problem problem) throws Exception {
         Stack<Problem> stack = new Stack<>();
         stack.push(problem);
