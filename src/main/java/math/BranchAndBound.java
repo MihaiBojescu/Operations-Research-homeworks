@@ -1,12 +1,16 @@
 package math;
 
-import java.util.Stack;
+import java.text.MessageFormat;
+import java.util.ArrayDeque;
+import java.util.Arrays;
+import java.util.Deque;
 import interfaces.Solver;
 import util.Result;
 
 public class BranchAndBound implements Solver {
     private Solver solver;
     private double tolerance;
+    private boolean debug;
 
     public BranchAndBound(Solver solver, double tolerance) throws IllegalArgumentException {
         if (tolerance < 0) {
@@ -15,18 +19,32 @@ public class BranchAndBound implements Solver {
 
         this.solver = solver;
         this.tolerance = tolerance;
+        this.debug = false;
+    }
+
+    public BranchAndBound(Solver solver, double tolerance, boolean debug) throws IllegalArgumentException {
+        if (tolerance < 0) {
+            throw new IllegalArgumentException(String.format("Tolerance must be >= 0, but is %d", tolerance));
+        }
+
+        this.solver = solver;
+        this.tolerance = tolerance;
+        this.debug = debug;
     }
 
     @Override
     public Result run(Problem problem) throws Exception {
-        Stack<Problem> stack = new Stack<>();
-        stack.push(problem);
+        Deque<Problem> queue = new ArrayDeque<>();
+        queue.push(problem);
 
         Result bestResult = new Result(null, -Solver.INF);
 
-        while (!stack.isEmpty()) {
-            Problem currentProblem = stack.pop();
+        while (!queue.isEmpty()) {
+            Problem currentProblem = queue.removeFirst();
             Result result = this.solver.run(currentProblem);
+
+            this.log(MessageFormat.format("Result: {0}, with values: {1}", result.getObjectiveValue(),
+                    Arrays.toString(result.getSolution())));
 
             if (result.getObjectiveValue() == Solver.INF) {
                 return new Result(null, Solver.INF);
@@ -57,23 +75,34 @@ public class BranchAndBound implements Solver {
                                 -1.0),
                         Math.ceil(result.getSolution()[biggestFractionalVariableIndex]));
 
-                stack.push(SubProblem1);
-                stack.push(SubProblem2);
+                queue.addLast(SubProblem1);
+                queue.addLast(SubProblem2);
             }
         }
 
         return bestResult;
     }
 
+    private void log(String string) {
+        if (!this.debug) {
+            return;
+        }
+
+        System.out.println(string);
+    }
+
     private boolean isSolutionIntegral(Result result) {
         boolean isIntegral = true;
+        double[] solution = result.getSolution();
 
-        for (double x : result.getSolution()) {
+        for (double x : solution) {
             if (x - Math.floor(x) > this.tolerance) {
                 isIntegral = false;
                 break;
             }
         }
+
+        this.log(MessageFormat.format("\tIs problem integral: {0}", isIntegral));
 
         return isIntegral;
     }
@@ -91,6 +120,8 @@ public class BranchAndBound implements Solver {
                 index = i;
             }
         }
+
+        this.log(MessageFormat.format("\tBiggest fractional index: {0}", index));
 
         return index;
     }
