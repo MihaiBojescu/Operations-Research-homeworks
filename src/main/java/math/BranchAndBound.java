@@ -25,7 +25,7 @@ public class BranchAndBound implements Solver {
 
         while (!stack.isEmpty()) {
             Problem currentProblem = stack.pop();
-            Result result = currentProblem.run();
+            Result result = this.solver.run(currentProblem);
 
             if (result.getObjectiveValue() == Solver.INF) {
                 return new Result(null, Solver.INF);

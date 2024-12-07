@@ -1,7 +1,5 @@
 package src.main.java.math;
 
-import src.main.java.util.Result;
-
 public class Problem {
     private Matrix objectiveFunctionMultipliers;
     private Matrix constraintsMultipliers;
@@ -18,12 +16,6 @@ public class Problem {
                 this.objectiveFunctionMultipliers.clone(),
                 this.constraintsMultipliers.clone(),
                 this.bounds.clone());
-    }
-
-    public Result run(Matrix solution) {
-        return new Result(
-                solution.getRow(0),
-                solution.transpose().multiplyMatrixWise(this.objectiveFunctionMultipliers).get(0, 0));
     }
 
     public int getNumberOfConstraints() {
