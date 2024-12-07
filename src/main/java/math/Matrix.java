@@ -69,7 +69,9 @@ public class Matrix {
 
     public Matrix addRow(double[] data) throws IllegalArgumentException {
         if (data.length != this.cols) {
-            throw new IllegalArgumentException("Number of additional rows must be non-negative");
+            throw new IllegalArgumentException(MessageFormat.format(
+                    "The number of elements of the new row must match the number of columns: {0} is different than {1}",
+                    data.length, this.cols - 1));
         }
 
         double[][] newData = new double[this.rows + 1][this.cols];
@@ -87,7 +89,9 @@ public class Matrix {
 
     public Matrix addColumn(double[] data) throws IllegalArgumentException {
         if (data.length != this.rows) {
-            throw new IllegalArgumentException("Number of additional rows must be non-negative");
+            throw new IllegalArgumentException(MessageFormat.format(
+                    "The number of elements of the new column must match the number of rows: {0} is different than {1}",
+                    data.length, this.rows - 1));
         }
 
         double[][] newData = new double[this.rows][this.cols + 1];
@@ -97,7 +101,7 @@ public class Matrix {
         }
 
         for (int i = 0; i < data.length; i++) {
-            newData[i][newData.length - 1] = data[i];
+            newData[i][newData[i].length - 1] = data[i];
         }
 
         return new Matrix(newData);
