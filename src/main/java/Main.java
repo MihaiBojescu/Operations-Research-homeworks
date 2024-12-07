@@ -10,10 +10,10 @@ import util.Result;
 public class Main {
     public static void main(String[] args) throws Exception {
         Problem problem = new Problem(
-                new Matrix(new double[] { 1, 1 }), new Matrix(new double[][] { { 1, 1 }, }),
-                new Matrix(new double[] { 1 }));
+                new Matrix(new double[] { 2, 3 }), new Matrix(new double[][] { { 3, 2 }, { 4, 5 }, }),
+                new Matrix(new double[] { 13, 11 }));
         Solver twoPhaseSolver = new TwoPhaseSolver();
-        Solver branchAndBound = new BranchAndBound(twoPhaseSolver, 0.0001);
+        Solver branchAndBound = new BranchAndBound(twoPhaseSolver, 0.0001, true);
         Result result = branchAndBound.run(problem);
 
         if (result.getObjectiveValue() == Solver.INF) {
