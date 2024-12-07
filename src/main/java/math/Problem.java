@@ -39,8 +39,59 @@ public class Problem {
     }
 
     public Problem addConstraint(double[] constraintMultipliers, double bound) throws Exception {
+        if (this.constraintsMultipliers.doesRowExist(constraintMultipliers)
+                && this.bounds.doesColumnExist(new double[] { bound })) {
+            return this;
+        }
+
         this.constraintsMultipliers = this.constraintsMultipliers.addRow(constraintMultipliers);
         this.bounds = this.bounds.addColumn(new double[] { bound });
         return this;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("\n");
+        builder.append("max\t");
+
+        for (int i = 0; i < this.objectiveFunctionMultipliers.getNumberOfColumns() - 1; i++) {
+            builder.append(this.objectiveFunctionMultipliers.get(0, i));
+            builder.append(" * x");
+            builder.append(i + 1);
+            builder.append(" + ");
+        }
+
+        builder.append(
+                this.objectiveFunctionMultipliers.get(0, this.objectiveFunctionMultipliers.getNumberOfColumns() - 1));
+        builder.append(" * x");
+        builder.append(this.objectiveFunctionMultipliers.getNumberOfColumns());
+
+        builder.append("\n");
+        builder.append("s.t.\t");
+
+        for (int i = 0; i < this.constraintsMultipliers.getNumberOfRows(); i++) {
+            for (int j = 0; j < this.constraintsMultipliers.getNumberOfColumns() - 1; j++) {
+                builder.append(this.constraintsMultipliers.get(i, j));
+                builder.append(" * x");
+                builder.append(j + 1);
+                builder.append(" + ");
+            }
+
+            builder.append(
+                    this.constraintsMultipliers.get(i,
+                            this.constraintsMultipliers.getNumberOfColumns() - 1));
+            builder.append(" * x");
+            builder.append(this.constraintsMultipliers.getNumberOfColumns());
+
+            builder.append(" <= ");
+            builder.append(this.bounds.get(0, i));
+
+            builder.append("\n");
+            builder.append("\t");
+        }
+
+        return builder.toString();
     }
 }
