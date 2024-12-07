@@ -4,6 +4,9 @@ import java.text.MessageFormat;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Deque;
+import java.util.HashSet;
+import java.util.Set;
+
 import interfaces.Solver;
 import util.Result;
 
@@ -35,6 +38,7 @@ public class BranchAndBound implements Solver {
     @Override
     public Result run(Problem problem) throws Exception {
         Deque<Problem> queue = new ArrayDeque<>();
+        Set<String> visited = new HashSet<>();
         queue.push(problem);
 
         Result bestResult = new Result(null, -Solver.INF);
@@ -43,8 +47,17 @@ public class BranchAndBound implements Solver {
             Problem currentProblem = queue.removeFirst();
             Result result = this.solver.run(currentProblem);
 
-            this.log(MessageFormat.format("Result: {0}, with values: {1}", result.getObjectiveValue(),
-                    Arrays.toString(result.getSolution())));
+            this.log(MessageFormat.format("\nResult: {0}, with values: {1}, and problem: {2}", result.getObjectiveValue(),
+                    Arrays.toString(result.getSolution()), currentProblem));
+
+            String problemSignature = this.getProblemSignature(currentProblem);
+
+            if (visited.contains(problemSignature)) {
+                this.log("\tSkipping, already visited");
+                continue;
+            }
+
+            visited.add(problemSignature);
 
             if (result.getObjectiveValue() == Solver.INF) {
                 return new Result(null, Solver.INF);
@@ -91,6 +104,17 @@ public class BranchAndBound implements Solver {
         System.out.println(string);
     }
 
+    private String getProblemSignature(Problem problem) {
+        StringBuilder signature = new StringBuilder();
+
+        for (double[] row : problem.getConstraints().toRawMatrix()) {
+            signature.append(Arrays.toString(row)).append(";");
+        }
+
+        signature.append(Arrays.toString(problem.getBounds().toRawVector()));
+        return signature.toString();
+    }
+
     private boolean isSolutionIntegral(Result result) {
         boolean isIntegral = true;
         double[] solution = result.getSolution();
@@ -121,7 +145,7 @@ public class BranchAndBound implements Solver {
             }
         }
 
-        this.log(MessageFormat.format("\tBiggest fractional index: {0}", index));
+        this.log(MessageFormat.format("\tBiggest fractional value: {0}, index {1}", solution[index], index));
 
         return index;
     }
