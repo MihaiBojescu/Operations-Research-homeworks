@@ -45,6 +45,14 @@ public class Matrix {
         return this.cols == 1 || this.rows == 1;
     }
 
+    public int getNumberOfRows() {
+        return this.rows;
+    }
+
+    public int getNumberOfColumns() {
+        return this.cols;
+    }
+
     public Matrix addRow(double[] data) throws IllegalArgumentException {
         if (data.length != this.cols) {
             throw new IllegalArgumentException("Number of additional rows must be non-negative");
