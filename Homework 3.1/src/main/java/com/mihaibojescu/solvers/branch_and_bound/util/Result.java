@@ -1,4 +1,4 @@
-package util;
+package com.mihaibojescu.solvers.branch_and_bound.util;
 
 public class Result {
     private double[] solution;

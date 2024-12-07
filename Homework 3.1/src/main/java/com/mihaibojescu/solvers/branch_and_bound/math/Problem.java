@@ -1,4 +1,4 @@
-package math;
+package com.mihaibojescu.solvers.branch_and_bound.math;
 
 public class Problem {
     private Matrix objectiveFunctionMultipliers;

@@ -1,4 +1,4 @@
-package math;
+package com.mihaibojescu.solvers.branch_and_bound.math;
 
 import java.text.MessageFormat;
 

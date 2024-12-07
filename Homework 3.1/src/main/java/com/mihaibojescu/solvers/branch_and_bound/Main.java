@@ -1,11 +1,13 @@
+package com.mihaibojescu.solvers.branch_and_bound;
+
 import java.util.Arrays;
 
-import interfaces.Solver;
-import math.Matrix;
-import math.Problem;
-import util.Result;
-import math.BranchAndBound;
-import math.TwoPhaseSimplexSolverAdapter;
+import com.mihaibojescu.solvers.branch_and_bound.interfaces.Solver;
+import com.mihaibojescu.solvers.branch_and_bound.math.Matrix;
+import com.mihaibojescu.solvers.branch_and_bound.math.Problem;
+import com.mihaibojescu.solvers.branch_and_bound.util.Result;
+import com.mihaibojescu.solvers.branch_and_bound.math.BranchAndBound;
+import com.mihaibojescu.solvers.branch_and_bound.math.TwoPhaseSimplexSolverAdapter;
 
 public class Main {
     public static void main(String[] args) throws Exception {

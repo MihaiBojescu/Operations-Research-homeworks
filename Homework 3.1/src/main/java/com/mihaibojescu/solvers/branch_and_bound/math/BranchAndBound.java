@@ -1,4 +1,4 @@
-package math;
+package com.mihaibojescu.solvers.branch_and_bound.math;
 
 import java.text.MessageFormat;
 import java.util.ArrayDeque;
@@ -7,8 +7,8 @@ import java.util.Deque;
 import java.util.HashSet;
 import java.util.Set;
 
-import interfaces.Solver;
-import util.Result;
+import com.mihaibojescu.solvers.branch_and_bound.interfaces.Solver;
+import com.mihaibojescu.solvers.branch_and_bound.util.Result;
 
 public class BranchAndBound implements Solver {
     private Solver solver;
@@ -47,7 +47,8 @@ public class BranchAndBound implements Solver {
             Problem currentProblem = queue.removeFirst();
             Result result = this.solver.run(currentProblem);
 
-            this.log(MessageFormat.format("\nResult: {0}, with values: {1}, and problem: {2}", result.getObjectiveValue(),
+            this.log(MessageFormat.format("\nResult: {0}, with values: {1}, and problem: {2}",
+                    result.getObjectiveValue(),
                     Arrays.toString(result.getSolution()), currentProblem));
 
             String problemSignature = this.getProblemSignature(currentProblem);

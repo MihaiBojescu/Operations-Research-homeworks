@@ -1,7 +1,7 @@
-package math;
+package com.mihaibojescu.solvers.branch_and_bound.math;
 
-import interfaces.Solver;
-import util.Result;
+import com.mihaibojescu.solvers.branch_and_bound.interfaces.Solver;
+import com.mihaibojescu.solvers.branch_and_bound.util.Result;
 
 public class TwoPhaseSimplexSolverAdapter implements Solver {
     @Override
