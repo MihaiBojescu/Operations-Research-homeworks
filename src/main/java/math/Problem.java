@@ -39,8 +39,8 @@ public class Problem {
     }
 
     public Problem addConstraint(double[] constraintMultipliers, double bound) throws Exception {
-        this.constraintsMultipliers.addRow(constraintMultipliers);
-        this.bounds.addRow(new double[] { bound });
+        this.constraintsMultipliers = this.constraintsMultipliers.addRow(constraintMultipliers);
+        this.bounds = this.bounds.addColumn(new double[] { bound });
         return this;
     }
 }
