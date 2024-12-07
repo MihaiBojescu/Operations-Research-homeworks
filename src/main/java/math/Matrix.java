@@ -107,8 +107,62 @@ public class Matrix {
         return new Matrix(newData);
     }
 
+    public boolean doesRowExist(double[] data) {
+        if (data.length != this.cols) {
+            throw new IllegalArgumentException(MessageFormat.format(
+                    "The number of elements of the row must match the number of columns: {0} is different than {1}",
+                    data.length, this.cols - 1));
+        }
+
+        boolean exists = true;
+
+        for (int i = 0; i < this.rows; i++) {
+            exists = true;
+
+            for (int j = 0; j < this.cols; j++) {
+                if (this.data[i][j] != data[j]) {
+                    exists = false;
+                    break;
+                }
+            }
+
+            if (exists) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean doesColumnExist(double[] data) {
+        if (data.length != this.rows) {
+            throw new IllegalArgumentException(MessageFormat.format(
+                    "The number of elements of the column must match the number of rows: {0} is different than {1}",
+                    data.length, this.rows - 1));
+        }
+
+        boolean exists = true;
+
+        for (int i = 0; i < this.cols; i++) {
+            exists = true;
+
+            for (int j = 0; j < this.rows; j++) {
+                if (this.data[j][i] != data[j]) {
+                    exists = false;
+                    break;
+                }
+            }
+
+            if (exists) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public double get(int row, int col) throws IllegalArgumentException {
-        if (row < 0 || row >= this.rows - 1 || col < 0 || col >= this.cols - 1) {
+        if (row < 0 || row >= this.rows || col < 0 || col >= this.cols) {
             throw new IllegalArgumentException(
                     MessageFormat.format("Index out of range: ({0}, {1}) must be between (0, 0) and ({2}, {3})", row,
                             col, this.rows - 1, this.cols - 1));
@@ -118,7 +172,7 @@ public class Matrix {
     }
 
     public void set(int row, int col, double value) throws IllegalArgumentException {
-        if (row < 0 || row >= this.rows - 1 || col < 0 || col >= this.cols - 1) {
+        if (row < 0 || row >= this.rows || col < 0 || col >= this.cols) {
             throw new IllegalArgumentException(
                     MessageFormat.format("Index out of range: ({0}, {1}) must be between (0, 0) and ({2}, {3})", row,
                             col, this.rows - 1, this.cols - 1));
@@ -128,7 +182,7 @@ public class Matrix {
     }
 
     public double[] getRow(int row) throws IllegalArgumentException {
-        if (row < 0 || row >= this.rows - 1) {
+        if (row < 0 || row >= this.rows) {
             throw new IllegalArgumentException(
                     MessageFormat.format("Index out of range: Row {0} must be between 0 and {1}", row, this.rows - 1));
         }
@@ -143,7 +197,7 @@ public class Matrix {
     }
 
     public double[] getColumn(int col) throws IllegalArgumentException {
-        if (col < 0 || col >= this.cols - 1) {
+        if (col < 0 || col >= this.cols) {
             throw new IllegalArgumentException(
                     MessageFormat.format("Index out of range: Column {0} must be between 0 and {1}", col,
                             this.cols - 1));
