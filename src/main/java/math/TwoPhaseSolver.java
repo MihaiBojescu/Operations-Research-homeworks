@@ -6,8 +6,10 @@ import util.Result;
 public class TwoPhaseSolver implements Solver {
     @Override
     public Result run(Problem problem) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'run'");
+        TwoPhaseSimplexSolver solver = new TwoPhaseSimplexSolver(problem.getConstraints().toRawMatrix(),
+                problem.getBounds().toRawVector(), problem.getObjectiveFunctionMultipliers().toRawVector());
+        return new Result(
+                solver.primalSolution(),
+                solver.optimalValue());
     }
-
 }
