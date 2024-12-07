@@ -1,7 +1,7 @@
-package src.main.java.math;
+package math;
 
-import src.main.java.interfaces.Solver;
-import src.main.java.util.Result;
+import interfaces.Solver;
+import util.Result;
 
 public class TwoPhaseSolver implements Solver {
     @Override

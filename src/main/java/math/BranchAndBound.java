@@ -1,8 +1,8 @@
-package src.main.java.math;
+package math;
 
 import java.util.Stack;
-import src.main.java.interfaces.Solver;
-import src.main.java.util.Result;
+import interfaces.Solver;
+import util.Result;
 
 public class BranchAndBound implements Solver {
     private Solver solver;

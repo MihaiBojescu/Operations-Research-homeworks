@@ -1,13 +1,11 @@
-package src.main.java;
-
 import java.util.Arrays;
 
-import src.main.java.interfaces.Solver;
-import src.main.java.math.BranchAndBound;
-import src.main.java.math.Matrix;
-import src.main.java.math.Problem;
-import src.main.java.math.TwoPhaseSolver;
-import src.main.java.util.Result;
+import interfaces.Solver;
+import math.BranchAndBound;
+import math.Matrix;
+import math.Problem;
+import math.TwoPhaseSolver;
+import util.Result;
 
 public class Main {
     public static void main(String[] args) throws Exception {

@@ -1,4 +1,4 @@
-package src.main.java.math;
+package math;
 
 public class Problem {
     private Matrix objectiveFunctionMultipliers;

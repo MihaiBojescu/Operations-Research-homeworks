@@ -1,4 +1,4 @@
-package src.main.java.math;
+package math;
 
 import java.text.MessageFormat;
 

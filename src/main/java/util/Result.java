@@ -1,4 +1,4 @@
-package src.main.java.util;
+package util;
 
 public class Result {
     private double[] solution;

@@ -1,7 +1,7 @@
-package src.main.java.interfaces;
+package interfaces;
 
-import src.main.java.math.Problem;
-import src.main.java.util.Result;
+import math.Problem;
+import util.Result;
 
 public interface Solver {
     public static final double INF = Double.POSITIVE_INFINITY;
