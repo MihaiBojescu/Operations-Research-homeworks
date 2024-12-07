@@ -29,8 +29,16 @@ public class Problem {
         return this.objectiveFunctionValue;
     }
 
-    public Problem addConstraint(double[] constraint, double bound) throws Exception {
-        this.constraintsMultipliers.addRow(constraint);
+    public int getNumberOfConstraints() {
+        return this.constraintsMultipliers.getNumberOfRows();
+    }
+
+    public int getNumberOfVariables() {
+        return this.solution.getNumberOfColumns();
+    }
+
+    public Problem addConstraint(double[] constraintMultipliers, double bound) throws Exception {
+        this.constraintsMultipliers.addRow(constraintMultipliers);
         this.bounds.addRow(new double[] { bound });
         return this;
     }
