@@ -47,6 +47,18 @@ public class Matrix {
         return this.cols == 1 || this.rows == 1;
     }
 
+    public double[][] toRawMatrix() {
+        return this.data;
+    }
+
+    public double[] toRawVector() throws IllegalStateException {
+        if (!this.isVector()) {
+            throw new IllegalStateException("The matrix is not a vector");
+        }
+
+        return this.data[0];
+    }
+
     public int getNumberOfRows() {
         return this.rows;
     }
