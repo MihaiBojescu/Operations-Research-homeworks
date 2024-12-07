@@ -26,6 +26,18 @@ public class Problem {
         return this.objectiveFunctionMultipliers.getNumberOfColumns();
     }
 
+    public Matrix getObjectiveFunctionMultipliers() {
+        return this.objectiveFunctionMultipliers;
+    }
+
+    public Matrix getConstraints() {
+        return this.constraintsMultipliers;
+    }
+
+    public Matrix getBounds() {
+        return this.bounds;
+    }
+
     public Problem addConstraint(double[] constraintMultipliers, double bound) throws Exception {
         this.constraintsMultipliers.addRow(constraintMultipliers);
         this.bounds.addRow(new double[] { bound });
