@@ -1,3 +1,4 @@
 public interface Solver {
-    public Result solve(Problem problem);
+    public static final double INF = Double.POSITIVE_INFINITY;
+    public Result run(Problem problem);
 }
