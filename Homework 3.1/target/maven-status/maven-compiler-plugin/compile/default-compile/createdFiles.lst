@@ -1,8 +1,0 @@
-Main.class
-math/Problem.class
-util/Result.class
-math/BranchAndBound.class
-interfaces/Solver.class
-math/Matrix.class
-math/TwoPhaseSimplexSolver.class
-math/TwoPhaseSimplexSolverAdapter.class
