@@ -1,3 +1,5 @@
+package src.main.java.math;
+
 import java.text.MessageFormat;
 
 public class Matrix {

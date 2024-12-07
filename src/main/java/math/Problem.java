@@ -1,15 +1,16 @@
+package src.main.java.math;
+
+import src.main.java.util.Result;
+
 public class Problem {
-    private Matrix solution;
     private Matrix objectiveFunctionMultipliers;
     private Matrix constraintsMultipliers;
     private Matrix bounds;
-    private Result objectiveFunctionValue;
 
     public Problem(Matrix objectiveFunctionMultipliers, Matrix constraintsMultipliers, Matrix bounds) {
         this.objectiveFunctionMultipliers = objectiveFunctionMultipliers;
         this.constraintsMultipliers = constraintsMultipliers;
         this.bounds = bounds;
-        this.objectiveFunctionValue = this.run();
     }
 
     public Problem clone() {
@@ -19,14 +20,10 @@ public class Problem {
                 this.bounds.clone());
     }
 
-    public Result run() {
+    public Result run(Matrix solution) {
         return new Result(
-                this.solution.getRow(0),
-                this.solution.transpose().multiplyMatrixWise(this.objectiveFunctionMultipliers).get(0, 0));
-    }
-
-    public Result getResult() {
-        return this.objectiveFunctionValue;
+                solution.getRow(0),
+                solution.transpose().multiplyMatrixWise(this.objectiveFunctionMultipliers).get(0, 0));
     }
 
     public int getNumberOfConstraints() {
@@ -34,7 +31,7 @@ public class Problem {
     }
 
     public int getNumberOfVariables() {
-        return this.solution.getNumberOfColumns();
+        return this.objectiveFunctionMultipliers.getNumberOfColumns();
     }
 
     public Problem addConstraint(double[] constraintMultipliers, double bound) throws Exception {

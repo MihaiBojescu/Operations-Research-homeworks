@@ -1,4 +1,8 @@
+package src.main.java.math;
+
 import java.util.Stack;
+import src.main.java.interfaces.Solver;
+import src.main.java.util.Result;
 
 public class BranchAndBound implements Solver {
     private Solver solver;
@@ -21,13 +25,13 @@ public class BranchAndBound implements Solver {
 
         while (!stack.isEmpty()) {
             Problem currentProblem = stack.pop();
-            Result result = currentProblem.getResult();
+            Result result = currentProblem.run();
 
-            if (result.objectiveValue == Solver.INF) {
+            if (result.getObjectiveValue() == Solver.INF) {
                 return new Result(null, Solver.INF);
             }
 
-            if (result.objectiveValue <= bestResult.objectiveValue) {
+            if (result.getObjectiveValue() <= bestResult.getObjectiveValue()) {
                 continue;
             }
 
@@ -45,12 +49,12 @@ public class BranchAndBound implements Solver {
                 SubProblem1.addConstraint(
                         this.createConstraint(currentProblem, biggestFractionalVariableIndex,
                                 1.0),
-                        Math.floor(result.solution[biggestFractionalVariableIndex]));
+                        Math.floor(result.getSolution()[biggestFractionalVariableIndex]));
 
                 SubProblem2.addConstraint(
                         this.createConstraint(currentProblem, biggestFractionalVariableIndex,
                                 -1.0),
-                        Math.ceil(result.solution[biggestFractionalVariableIndex]));
+                        Math.ceil(result.getSolution()[biggestFractionalVariableIndex]));
 
                 stack.push(SubProblem1);
                 stack.push(SubProblem2);
@@ -63,7 +67,7 @@ public class BranchAndBound implements Solver {
     private boolean isSolutionIntegral(Result result) {
         boolean isIntegral = true;
 
-        for (double x : result.solution) {
+        for (double x : result.getSolution()) {
             if (x - Math.floor(x) > this.tolerance) {
                 isIntegral = false;
                 break;
@@ -76,9 +80,10 @@ public class BranchAndBound implements Solver {
     private int getBiggestFractionalVariableIndex(Result result) {
         int index = -1;
         double maxFraction = 0.0;
+        double[] solution = result.getSolution();
 
-        for (int i = 0; i < result.solution.length; i++) {
-            double fraction = result.solution[i] - Math.floor(result.solution[i]);
+        for (int i = 0; i < solution.length; i++) {
+            double fraction = solution[i] - Math.floor(solution[i]);
 
             if (fraction > maxFraction) {
                 maxFraction = fraction;
