@@ -54,6 +54,16 @@ public class BranchAndBoundTest {
         Result result = branchAndBound.run(problem);
     }
 
+    @Test
+    public void queens5_5_colExample() throws Exception {
+        Graph graph = this.parseGraph("/queen5_5.col");
+        Problem problem = this.buildProblemFromGraph(graph);
+
+        Solver twoPhaseSolver = new TwoPhaseSimplexSolverAdapter();
+        Solver branchAndBound = new BranchAndBound(twoPhaseSolver, 0.0001, true);
+        Result result = branchAndBound.run(problem);
+    }
+
     private Graph parseGraph(String resource) throws IOException, URISyntaxException {
         URL fileUrl = this.getClass().getResource(resource);
         File file = new File(fileUrl.toURI());
