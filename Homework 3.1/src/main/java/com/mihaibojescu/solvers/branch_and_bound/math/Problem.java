@@ -39,8 +39,9 @@ public class Problem {
     }
 
     public Problem addConstraint(double[] constraintMultipliers, double bound) throws Exception {
-        if (this.constraintsMultipliers.doesRowExist(constraintMultipliers)
-                && this.bounds.doesColumnExist(new double[] { bound })) {
+        int indexOfExistingConstraint = this.constraintsMultipliers.findIndexOfRow(constraintMultipliers);
+
+        if (indexOfExistingConstraint != -1 && this.bounds.get(0, indexOfExistingConstraint) == bound) {
             return this;
         }
 
