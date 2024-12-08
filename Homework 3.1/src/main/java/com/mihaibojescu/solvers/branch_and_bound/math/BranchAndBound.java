@@ -44,12 +44,13 @@ public class BranchAndBound implements Solver {
         Result bestResult = new Result(null, -Solver.INF);
 
         while (!queue.isEmpty()) {
-            Problem currentProblem = queue.removeFirst();
+            Problem currentProblem = queue.removeLast();
             Result result = this.solver.run(currentProblem);
 
-            this.log(MessageFormat.format("\nResult: {0}, with values: {1}, and problem: {2}",
+            this.log(MessageFormat.format("\nStatistics: {0} subproblems left, {1} subproblems visited", queue.size(), visited.size()));
+            this.log(MessageFormat.format("\tResult: {0}, with values: {1}",
                     result.getObjectiveValue(),
-                    Arrays.toString(result.getSolution()), currentProblem));
+                    Arrays.toString(result.getSolution())));
 
             String problemSignature = this.getProblemSignature(currentProblem);
 
@@ -86,7 +87,7 @@ public class BranchAndBound implements Solver {
 
                 subProblem2.addConstraint(
                         this.createConstraint(currentProblem, biggestFractionalVariableIndex,
-                                -1.0),
+                                1.0),
                         Math.ceil(result.getSolution()[biggestFractionalVariableIndex]));
 
                 queue.addLast(subProblem1);
