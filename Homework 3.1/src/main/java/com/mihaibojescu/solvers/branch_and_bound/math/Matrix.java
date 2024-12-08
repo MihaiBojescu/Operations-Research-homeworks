@@ -107,7 +107,7 @@ public class Matrix {
         return new Matrix(newData);
     }
 
-    public boolean doesRowExist(double[] data) {
+    public int findIndexOfRow(double[] data) {
         if (data.length != this.cols) {
             throw new IllegalArgumentException(MessageFormat.format(
                     "The number of elements of the row must match the number of columns: {0} is different than {1}",
@@ -127,14 +127,14 @@ public class Matrix {
             }
 
             if (exists) {
-                return true;
+                return i;
             }
         }
 
-        return false;
+        return -1;
     }
 
-    public boolean doesColumnExist(double[] data) {
+    public int findIndexOfColumn(double[] data) {
         if (data.length != this.rows) {
             throw new IllegalArgumentException(MessageFormat.format(
                     "The number of elements of the column must match the number of rows: {0} is different than {1}",
@@ -154,11 +154,19 @@ public class Matrix {
             }
 
             if (exists) {
-                return true;
+                return i;
             }
         }
 
-        return false;
+        return -1;
+    }
+
+    public boolean doesRowExist(double[] data) {
+        return this.findIndexOfRow(data) != -1;
+    }
+
+    public boolean doesColumnExist(double[] data) {
+        return this.findIndexOfColumn(data) != -1;
     }
 
     public double get(int row, int col) throws IllegalArgumentException {
