@@ -76,21 +76,21 @@ public class BranchAndBound implements Solver {
             int biggestFractionalVariableIndex = this.getBiggestFractionalVariableIndex(result);
 
             if (biggestFractionalVariableIndex >= 0) {
-                Problem SubProblem1 = currentProblem.clone();
-                Problem SubProblem2 = currentProblem.clone();
+                Problem subProblem1 = currentProblem.clone();
+                Problem subProblem2 = currentProblem.clone();
 
-                SubProblem1.addConstraint(
+                subProblem1.addConstraint(
                         this.createConstraint(currentProblem, biggestFractionalVariableIndex,
                                 1.0),
                         Math.floor(result.getSolution()[biggestFractionalVariableIndex]));
 
-                SubProblem2.addConstraint(
+                subProblem2.addConstraint(
                         this.createConstraint(currentProblem, biggestFractionalVariableIndex,
                                 -1.0),
                         Math.ceil(result.getSolution()[biggestFractionalVariableIndex]));
 
-                queue.addLast(SubProblem1);
-                queue.addLast(SubProblem2);
+                queue.addLast(subProblem1);
+                queue.addLast(subProblem2);
             }
         }
 
