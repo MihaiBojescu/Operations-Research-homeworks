@@ -87,7 +87,7 @@ public class BranchAndBound implements Solver {
 
                 subProblem2.addConstraint(
                         this.createConstraint(currentProblem, biggestFractionalVariableIndex,
-                                1.0),
+                                -1.0),
                         Math.ceil(result.getSolution()[biggestFractionalVariableIndex]));
 
                 queue.addLast(subProblem1);
