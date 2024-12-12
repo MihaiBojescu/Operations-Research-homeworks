@@ -268,8 +268,26 @@ public class Matrix {
         return new Matrix(data);
     }
 
+    public Matrix dot(Matrix other) throws IllegalArgumentException {
+        if (this.cols != other.rows || this.rows != other.cols) {
+            throw new IllegalArgumentException(
+                    MessageFormat.format("Invalid matrix sizes: ({0}, {1}), ({2}, {3})", this.rows,
+                            this.cols, other.rows, other.cols));
+        }
+
+        double value = 0;
+
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.cols; j++) {
+                value += this.data[i][j] * other.data[j][i];
+            }
+        }
+
+        return new Matrix(new double[] { value });
+    }
+
     public Matrix multiplyElementWise(Matrix other) throws IllegalArgumentException {
-        if (this.cols != other.rows) {
+        if (this.cols != other.cols || this.rows != other.cols) {
             throw new IllegalArgumentException(
                     MessageFormat.format("Invalid matrix sizes: ({0}, {1}), ({2}, {3})", this.rows,
                             this.cols, other.rows, other.cols));
