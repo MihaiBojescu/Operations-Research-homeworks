@@ -10,12 +10,12 @@ import java.util.Set;
 import com.mihaibojescu.solvers.branch_and_bound.interfaces.Solver;
 import com.mihaibojescu.solvers.branch_and_bound.util.Result;
 
-public class BranchAndBound implements Solver {
+public class BranchAndBoundSolver implements Solver {
     private Solver solver;
     private double tolerance;
     private boolean debug;
 
-    public BranchAndBound(Solver solver, double tolerance) throws IllegalArgumentException {
+    public BranchAndBoundSolver(Solver solver, double tolerance) throws IllegalArgumentException {
         if (tolerance < 0) {
             throw new IllegalArgumentException(String.format("Tolerance must be >= 0, but is %d", tolerance));
         }
@@ -25,7 +25,7 @@ public class BranchAndBound implements Solver {
         this.debug = false;
     }
 
-    public BranchAndBound(Solver solver, double tolerance, boolean debug) throws IllegalArgumentException {
+    public BranchAndBoundSolver(Solver solver, double tolerance, boolean debug) throws IllegalArgumentException {
         if (tolerance < 0) {
             throw new IllegalArgumentException(String.format("Tolerance must be >= 0, but is %d", tolerance));
         }

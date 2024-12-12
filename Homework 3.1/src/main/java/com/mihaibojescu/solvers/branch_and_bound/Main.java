@@ -6,7 +6,7 @@ import com.mihaibojescu.solvers.branch_and_bound.interfaces.Solver;
 import com.mihaibojescu.solvers.branch_and_bound.math.Matrix;
 import com.mihaibojescu.solvers.branch_and_bound.math.Problem;
 import com.mihaibojescu.solvers.branch_and_bound.util.Result;
-import com.mihaibojescu.solvers.branch_and_bound.math.BranchAndBound;
+import com.mihaibojescu.solvers.branch_and_bound.math.BranchAndBoundSolver;
 import com.mihaibojescu.solvers.branch_and_bound.math.TwoPhaseSimplexSolverAdapter;
 
 public class Main {
@@ -15,7 +15,7 @@ public class Main {
                 new Matrix(new double[] { 2, 3 }), new Matrix(new double[][] { { 3, 2 }, { 4, 5 }, }),
                 new Matrix(new double[] { 13, 11 }));
         Solver twoPhaseSolver = new TwoPhaseSimplexSolverAdapter();
-        Solver branchAndBound = new BranchAndBound(twoPhaseSolver, 0.0001, true);
+        Solver branchAndBound = new BranchAndBoundSolver(twoPhaseSolver, 0.0001, true);
         Result result = branchAndBound.run(problem);
 
         if (result.getObjectiveValue() == Solver.INF) {

@@ -15,15 +15,16 @@ import org.junit.jupiter.api.Test;
 
 import com.mihaibojescu.solvers.branch_and_bound.interfaces.Solver;
 import com.mihaibojescu.solvers.branch_and_bound.util.Result;
+import com.mihaibojescu.solvers.branch_and_bound.util.Graph;
 
-public class BranchAndBoundTest {
+public class BranchAndBoundSolverTest {
     @Test
     public void toyExample() throws Exception {
         Problem problem = new Problem(
                 new Matrix(new double[] { 2, 3 }), new Matrix(new double[][] { { 3, 2 }, { 4, 5 }, }),
                 new Matrix(new double[] { 13, 11 }));
         Solver twoPhaseSolver = new TwoPhaseSimplexSolverAdapter();
-        Solver branchAndBound = new BranchAndBound(twoPhaseSolver, 0.0001);
+        Solver branchAndBound = new BranchAndBoundSolver(twoPhaseSolver, 0.0001);
         Result result = branchAndBound.run(problem);
 
         assertArrayEquals(result.getSolution(), new double[] { 0.0, 2.0 });
@@ -37,7 +38,7 @@ public class BranchAndBoundTest {
                 new Matrix(new double[][] { { 6, 4 }, { 1, 2 }, { -1, 1 }, { 0, 1 } }),
                 new Matrix(new double[] { 24, 6, 1, 2 }));
         Solver twoPhaseSolver = new TwoPhaseSimplexSolverAdapter();
-        Solver branchAndBound = new BranchAndBound(twoPhaseSolver, 0.0001);
+        Solver branchAndBound = new BranchAndBoundSolver(twoPhaseSolver, 0.0001);
         Result result = branchAndBound.run(problem);
 
         assertArrayEquals(result.getSolution(), new double[] { 3.0, 1.0000000000000004 });
@@ -50,7 +51,7 @@ public class BranchAndBoundTest {
         Problem problem = this.buildProblemFromGraph(graph);
 
         Solver twoPhaseSolver = new TwoPhaseSimplexSolverAdapter();
-        Solver branchAndBound = new BranchAndBound(twoPhaseSolver, 0.0001, true);
+        Solver branchAndBound = new BranchAndBoundSolver(twoPhaseSolver, 0.0001, true);
         Result result = branchAndBound.run(problem);
     }
 
@@ -60,7 +61,7 @@ public class BranchAndBoundTest {
         Problem problem = this.buildProblemFromGraph(graph);
 
         Solver twoPhaseSolver = new TwoPhaseSimplexSolverAdapter();
-        Solver branchAndBound = new BranchAndBound(twoPhaseSolver, 0.0001, true);
+        Solver branchAndBound = new BranchAndBoundSolver(twoPhaseSolver, 0.0001, true);
         Result result = branchAndBound.run(problem);
     }
 
@@ -116,29 +117,5 @@ public class BranchAndBoundTest {
         }
 
         return new Problem(objectiveFunctionMultipliers, constraintsMultipliers, bounds);
-    }
-}
-
-class Graph {
-    private int numberOfVertices;
-    private int numberOfEdges;
-    private List<int[]> edges;
-
-    public Graph(int numberOfVertices, int numberOfEdges, List<int[]> edges) {
-        this.numberOfVertices = numberOfVertices;
-        this.numberOfEdges = numberOfEdges;
-        this.edges = edges;
-    }
-
-    public int getNumberOfVertices() {
-        return numberOfVertices;
-    }
-
-    public int getNumberOfEdges() {
-        return numberOfEdges;
-    }
-
-    public List<int[]> getEdges() {
-        return edges;
     }
 }
