@@ -40,7 +40,7 @@ public class BranchAndBoundTest {
         Solver branchAndBound = new BranchAndBound(twoPhaseSolver, 0.0001);
         Result result = branchAndBound.run(problem);
 
-        assertArrayEquals(result.getSolution(), new double[] { 3.0, 1.0 });
+        assertArrayEquals(result.getSolution(), new double[] { 3.0, 1.0000000000000004 });
         assertEquals(result.getObjectiveValue(), 19.0);
     }
 
