@@ -8,6 +8,7 @@ public class TwoPhaseSimplexSolverAdapter implements Solver {
     public Result run(Problem problem) {
         TwoPhaseSimplexSolver solver = new TwoPhaseSimplexSolver(problem.getConstraints().toRawMatrix(),
                 problem.getBounds().toRawVector(), problem.getObjectiveFunctionMultipliers().toRawVector());
+        solver.solve();
         return new Result(
                 solver.primalSolution(),
                 solver.optimalValue());
