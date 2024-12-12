@@ -122,7 +122,7 @@ public class BranchAndBoundSolver implements Solver {
         double[] solution = result.getSolution();
 
         for (double x : solution) {
-            if (Math.abs(x - Math.round(x)) > this.tolerance) {
+            if (x - Math.floor(x) > this.tolerance) {
                 isIntegral = false;
                 break;
             }
