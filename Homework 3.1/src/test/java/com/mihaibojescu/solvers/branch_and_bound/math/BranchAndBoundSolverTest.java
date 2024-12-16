@@ -9,6 +9,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -24,7 +25,7 @@ public class BranchAndBoundSolverTest {
                 new Matrix(new double[] { 2, 3 }), new Matrix(new double[][] { { 3, 2 }, { 4, 5 }, }),
                 new Matrix(new double[] { 13, 11 }));
         Solver twoPhaseSolver = new TwoPhaseSimplexSolverAdapter();
-        Solver branchAndBound = new BranchAndBoundSolver(twoPhaseSolver, 0.0001);
+        Solver branchAndBound = new ParallelBranchAndBoundSolver(twoPhaseSolver, 0.0001, 8);
         Result result = branchAndBound.run(problem);
 
         assertArrayEquals(result.getSolution(), new double[] { 0.0, 2.0 });
@@ -38,7 +39,7 @@ public class BranchAndBoundSolverTest {
                 new Matrix(new double[][] { { 6, 4 }, { 1, 2 }, { -1, 1 }, { 0, 1 } }),
                 new Matrix(new double[] { 24, 6, 1, 2 }));
         Solver twoPhaseSolver = new TwoPhaseSimplexSolverAdapter();
-        Solver branchAndBound = new BranchAndBoundSolver(twoPhaseSolver, 0.0001);
+        Solver branchAndBound = new ParallelBranchAndBoundSolver(twoPhaseSolver, 0.0001, 8);
         Result result = branchAndBound.run(problem);
 
         assertArrayEquals(result.getSolution(), new double[] { 3.0, 1.0000000000000004 });
@@ -51,8 +52,10 @@ public class BranchAndBoundSolverTest {
         Problem problem = this.buildProblemFromGraph(graph);
 
         Solver twoPhaseSolver = new TwoPhaseSimplexSolverAdapter();
-        Solver branchAndBound = new BranchAndBoundSolver(twoPhaseSolver, 0.0001, true);
+        Solver branchAndBound = new ParallelBranchAndBoundSolver(twoPhaseSolver, 0.0001, 8, true);
         Result result = branchAndBound.run(problem);
+
+        System.out.println(Arrays.toString(result.getSolution()));
     }
 
     @Test
@@ -61,8 +64,10 @@ public class BranchAndBoundSolverTest {
         Problem problem = this.buildProblemFromGraph(graph);
 
         Solver twoPhaseSolver = new TwoPhaseSimplexSolverAdapter();
-        Solver branchAndBound = new BranchAndBoundSolver(twoPhaseSolver, 0.0001, true);
+        Solver branchAndBound = new ParallelBranchAndBoundSolver(twoPhaseSolver, 0.0001, 8, true);
         Result result = branchAndBound.run(problem);
+
+        System.out.println(Arrays.toString(result.getSolution()));
     }
 
     private Graph parseGraph(String resource) throws IOException, URISyntaxException {
