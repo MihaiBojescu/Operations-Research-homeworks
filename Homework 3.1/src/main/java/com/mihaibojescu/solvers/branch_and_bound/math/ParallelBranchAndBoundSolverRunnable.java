@@ -91,9 +91,13 @@ public class ParallelBranchAndBoundSolverRunnable implements Runnable {
 
             synchronized (this.visited) {
                 if (visited.getOrDefault(problemSignature, false)) {
-                    this.log("\tSkipping, already visited");
+                    this.log("\tAlready visited: true");
+                    this.log("\tSolution is integral: null");
+                    this.log("\tBiggest fractional value: null, index -1");
                     return;
                 }
+                
+                this.log("\tAlready visited: false");
 
                 visited.putIfAbsent(problemSignature, true);
             }
@@ -110,14 +114,21 @@ public class ParallelBranchAndBoundSolverRunnable implements Runnable {
                 }
 
                 if (isSolutionIntegral(result)) {
+                    this.log("\tSolution is integral: true");
+                    this.log("\tBiggest fractional value: null, index -1");
                     this.solution.setValue(result);
                     return;
                 }
+
+                this.log("\tSolution is integral: false");
             }
 
             int biggestFractionalVariableIndex = this.getBiggestFractionalVariableIndex(result);
+            this.log(MessageFormat.format("\tBiggest fractional value: {0}, index {1}",
+                    result.getSolution()[biggestFractionalVariableIndex], biggestFractionalVariableIndex));
 
             if (biggestFractionalVariableIndex >= 0) {
+
                 Problem subProblem1 = problem.clone();
                 Problem subProblem2 = problem.clone();
 
@@ -171,8 +182,6 @@ public class ParallelBranchAndBoundSolverRunnable implements Runnable {
             }
         }
 
-        this.log(MessageFormat.format("\tIs problem integral: {0}", isIntegral));
-
         return isIntegral;
     }
 
@@ -189,8 +198,6 @@ public class ParallelBranchAndBoundSolverRunnable implements Runnable {
                 index = i;
             }
         }
-
-        this.log(MessageFormat.format("\tBiggest fractional value: {0}, index {1}", solution[index], index));
 
         return index;
     }
